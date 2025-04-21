@@ -8,7 +8,7 @@ info:
     - [Documentación de SWAPI](https://swapi.dev/documentation)
   termsOfService: http://swagger.io/terms/
   contact:
-    email: jackyramirez2710@gmail.com
+    email: al222310970@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -19,7 +19,7 @@ externalDocs:
   url: http://swagger.io
 
 servers:
-  - url: https://jacky.jeotech.x10.mx
+  - url: 18.217.244.138
 
 tags:
   - name: users
@@ -208,11 +208,11 @@ components:
           example: "1"
         name:
           type: string
-          example: "Jacquline Ramirez Vilchis"
+          example: "John Doe"
         email:
           type: string
           format: email
-          example: "jackyramirez2710@gmail.com"
+          example: "johndoe@example.com"
         password:
           type: string
-          example: "jacky2710"
+          example: "john12"
