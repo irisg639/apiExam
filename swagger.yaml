@@ -1,0 +1,218 @@
+openapi: 3.0.3
+info:
+  title: API Usuarios - OpenAPI 3.0
+  description: |-
+    Esta es una API para la gestión de usuarios utilizando la especificación OpenAPI 3.0.
+    Algunos enlaces útiles:
+    - [El repositorio de la API](https://github.com/aleort09/apiExam)
+    - [Documentación de SWAPI](https://swapi.dev/documentation)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: jackyramirez2710@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+
+externalDocs:
+  description: Más información sobre Swagger
+  url: http://swagger.io
+
+servers:
+  - url: https://jacky.jeotech.x10.mx
+
+tags:
+  - name: users
+    description: Operaciones relacionadas con los usuarios
+
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Obtener todos los usuarios
+      description: Devuelve una lista de todos los usuarios registrados.
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Error interno del servidor
+
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Obtener un usuario por ID
+      description: Devuelve los datos de un usuario específico.
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a obtener
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error interno del servidor
+
+  /users/create:
+    post:
+      tags:
+        - users
+      summary: Crear un nuevo usuario
+      description: Crea un usuario con los datos proporcionados.
+      operationId: createUser
+      requestBody:
+        description: Datos del usuario a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+        '400':
+          description: Datos inválidos
+
+  /users/edit/{id}:
+    post:
+      tags:
+        - users
+      summary: Editar un usuario
+      description: Edita los datos de un usuario existente.
+      operationId: editUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a editar
+          schema:
+            type: string
+      requestBody:
+        description: Nuevos datos del usuario
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Jane Doe"
+                email:
+                  type: string
+                  format: email
+                  example: "janedoe@example.com"
+      responses:
+        '200':
+          description: Usuario modificado exitosamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al modificar el usuario
+
+  /users/delete/{id}:
+    delete:
+      tags:
+        - users
+      summary: Eliminar un usuario
+      description: Elimina un usuario basado en su ID.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a eliminar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al eliminar el usuario
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Iniciar sesión
+      description: Permite a un usuario iniciar sesión proporcionando su correo electrónico y contraseña.
+      operationId: loginUser
+      requestBody:
+        description: Datos de inicio de sesión
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "johndoe@example.com"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "1"
+                      name:
+                        type: string
+                        example: "John Doe"
+                      email:
+                        type: string
+                        example: "johndoe@example.com"
+        '401':
+          description: Credenciales inválidas
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        name:
+          type: string
+          example: "Jacquline Ramirez Vilchis"
+        email:
+          type: string
+          format: email
+          example: "jackyramirez2710@gmail.com"
+        password:
+          type: string
+          example: "jacky2710"
